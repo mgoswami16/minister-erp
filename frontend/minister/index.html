@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>Minister Login |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <style>
+        .login-page {
+            background: linear-gradient(
+                135deg,
+                #1a0033 0%,
+                #4a0080 40%,
+                #6F42C1 100%
+            );
+        }
+
+        .minister-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(
+                135deg,
+                #FFD700,
+                #FFA500
+            );
+            color: #1a0033;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-top: 10px;
+            box-shadow: 0 4px 12px
+                rgba(255,215,0,0.4);
+        }
+
+        .security-info {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid
+                rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-top: 20px;
+        }
+
+        .security-info p {
+            font-size: 0.78rem;
+            color: #ADB5BD;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-page">
+    <div class="login-container">
+        <div class="login-card">
+
+            <!-- Logo -->
+            <div class="login-logo">
+                <div class="emblem"
+                    style="background:
+                    linear-gradient(135deg,
+                    #6F42C1,#9B59B6);
+                    box-shadow:0 4px 15px
+                    rgba(111,66,193,0.4)">
+                    <i class="fas
+                        fa-crown"></i>
+                </div>
+                <h1 style="color:#6F42C1">
+                    Minister Office<br>
+                    Control Room ERP
+                </h1>
+                <p>Hon. Shri Asim Arun
+                    | Uttar Pradesh</p>
+                <div class="minister-badge">
+                    <i class="fas fa-star">
+                    </i>
+                    Super Admin Portal
+                </div>
+            </div>
+
+            <!-- Alert -->
+            <div id="loginAlert"
+                style="display:none;
+                margin-top:16px"
+                class="alert alert-danger">
+                <i class="fas
+                    fa-exclamation-circle">
+                </i>
+                <span id="alertMessage"></span>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm"
+                autocomplete="off"
+                style="margin-top:24px">
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Username
+                        <span>*</span>
+                    </label>
+                    <div class="input-icon-group">
+                        <i class="fas fa-user">
+                        </i>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            class="form-control"
+                            placeholder=
+                            "Minister username"
+                            required
+                            autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">
+                        Password
+                        <span>*</span>
+                    </label>
+                    <div class="input-icon-group">
+                        <i class="fas fa-lock">
+                        </i>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            class="form-control"
+                            placeholder=
+                            "Enter password"
+                            required>
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="toggle-password">
+                            <i class="fas fa-eye">
+                            </i>
+                        </button>
+                    </div>
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn btn-full btn-lg"
+                    style="background:
+                    linear-gradient(135deg,
+                    #6F42C1,#9B59B6);
+                    color:white;border:none;
+                    margin-top:8px;
+                    box-shadow:0 4px 15px
+                    rgba(111,66,193,0.4)">
+                    <i class="fas
+                        fa-sign-in-alt"></i>
+                    Access Minister Portal
+                </button>
+
+            </form>
+
+            <!-- Security Info -->
+            <div class="security-info">
+                <p>
+                    <i class="fas
+                        fa-shield-alt"
+                        style="color:#6F42C1">
+                    </i>
+                    Highly Restricted Access
+                    | Authorized Personnel Only
+                </p>
+            </div>
+
+            <div style="margin-top:16px;
+                text-align:center">
+                <p style="font-size:0.75rem;
+                    color:#ADB5BD;margin:0">
+                    Minister Office ERP v1.0.0
+                    | &copy; 2024
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div id="toastContainer"
+    class="toast-container"></div>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+
+<script>
+    AUTH.initLoginPage('MINISTER');
+</script>
+
+</body>
+</html>

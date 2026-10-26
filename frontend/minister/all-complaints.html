@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>All Complaints |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <link rel="stylesheet"
+        href="../assets/css/dashboard.css">
+    <link rel="stylesheet"
+        href="../assets/css/components.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar"
+        style="background:linear-gradient(
+        180deg,#1a0033 0%,#4a0080 100%)">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background:linear-gradient(
+                135deg,#FFD700,#FFA500)">
+                <i class="fas fa-crown"
+                    style="color:#1a0033">
+                </i>
+            </div>
+            <div class="sidebar-title">
+                <h2>Minister ERP</h2>
+                <span>Super Admin</span>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar
+                user-avatar"
+                style="background:linear-gradient(
+                135deg,#FFD700,#FFA500);
+                color:#1a0033">MA
+            </div>
+            <div class="profile-info">
+                <h4 class="user-name">
+                    Minister</h4>
+                <span style="color:
+                    rgba(255,215,0,0.8)">
+                    SUPER ADMIN
+                </span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <a href="dashboard.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-tachometer-alt">
+                    </i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="all-complaints.html"
+                    class="nav-item active">
+                    <i class="fas
+                        fa-clipboard-list">
+                    </i>
+                    <span>All Complaints</span>
+                </a>
+                <a href="analytics.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="users.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-users-cog"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-item"
+                onclick="AUTH.logout()">
+                <i class="fas
+                    fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"
+        id="mainContent">
+
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>All Complaints</h1>
+                    <p>Complete complaints
+                        management</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <span class="time"
+                        id="currentTime"></span>
+                    <span class="date"
+                        id="currentDate"></span>
+                </div>
+                <button class="header-btn"
+                    onclick="UTILS
+                    .toggleNotificationPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count"
+                        id="notifCount"
+                        style="display:none">0
+                    </span>
+                </button>
+                <button class="btn btn-sm"
+                    onclick=
+                    "API.reports.exportMonthly()"
+                    style="background:#28A745;
+                    color:white">
+                    <i class="fas
+                        fa-file-excel"></i>
+                    Export
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="search-bar"
+                    style="flex:1">
+                    <i class="fas fa-search">
+                    </i>
+                    <input type="text"
+                        id="searchInput"
+                        placeholder=
+                        "Search complaints...">
+                </div>
+                <select id="statusFilter"
+                    class="filter-select"
+                    onchange="applyFilter()">
+                    <option value="">
+                        All Status
+                    </option>
+                    <option value="NEW">New
+                    </option>
+                    <option value="ASSIGNED">
+                        Assigned
+                    </option>
+                    <option value="PENDING">
+                        Pending
+                    </option>
+                    <option value=
+                        "ACTION_TAKEN">
+                        Action Taken
+                    </option>
+                    <option value="ESCALATED">
+                        Escalated
+                    </option>
+                    <option value=
+                        "MINISTER_REVIEW">
+                        Minister Review
+                    </option>
+                    <option value="RESOLVED">
+                        Resolved
+                    </option>
+                    <option value="CLOSED">
+                        Closed
+                    </option>
+                </select>
+                <select id="priorityFilter"
+                    class="filter-select"
+                    onchange="applyFilter()">
+                    <option value="">
+                        All Priority
+                    </option>
+                    <option value="CRITICAL">
+                        Critical
+                    </option>
+                    <option value="HIGH">
+                        High
+                    </option>
+                    <option value="MEDIUM">
+                        Medium
+                    </option>
+                    <option value="LOW">Low
+                    </option>
+                </select>
+                <select id="officerFilter"
+                    class="filter-select"
+                    onchange="applyFilter()">
+                    <option value="">
+                        All Officers
+                    </option>
+                </select>
+                <button class="btn
+                    btn-outline btn-sm"
+                    onclick="loadData()">
+                    <i class="fas fa-sync">
+                    </i>
+                    Refresh
+                </button>
+            </div>
+
+            <!-- Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i class="fas
+                            fa-clipboard-list">
+                        </i>
+                        All Complaints
+                        <span id="recordCount"
+                            style="font-size:
+                            0.8rem;color:
+                            var(--gray);
+                            font-weight:400;
+                            margin-left:8px">
+                        </span>
+                    </h3>
+                </div>
+                <div class="table-container">
+                    <table class="table
+                        table-striped"
+                        id="complaintsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>ID</th>
+                                <th>Caller</th>
+                                <th>District</th>
+                                <th>Subject</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Officer</th>
+                                <th>Age</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Notification Panel -->
+<div class="notification-panel"
+    id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3>
+            <i class="fas fa-bell"></i>
+            Notifications
+        </h3>
+        <button class="modal-close"
+            onclick="UTILS
+            .toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="notification-list"
+        id="notificationList"></div>
+</div>
+
+<div id="toastContainer"
+    class="toast-container"></div>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/complaints.js">
+</script>
+
+<script>
+// ── Guard Page
+AUTH.guardPage('MINISTER');
+
+let allData = [];
+
+// ── Initialize
+document.addEventListener(
+    'DOMContentLoaded', async () => {
+    UTILS.init();
+    await loadData();
+
+    // Search listener
+    document.getElementById('searchInput')
+        ?.addEventListener('input',
+        UTILS.debounce(applyFilter, 300));
+});
+
+// ── Load Data
+async function loadData() {
+    try {
+        UTILS.showLoading(true);
+        const result = await API
+            .complaints.getAll();
+
+        if (result && result.success) {
+            allData = result.data || [];
+            renderTable(allData);
+            populateOfficerFilter(allData);
+        }
+    } catch (e) {
+        UTILS.showToast(
+            'Failed to load', 'error');
+    } finally {
+        UTILS.showLoading(false);
+    }
+}
+
+// ── Populate Officer Filter
+function populateOfficerFilter(data) {
+    const officers = [...new Set(
+        data.map(c => c.assignedName)
+            .filter(n => n)
+    )];
+
+    const select = document
+        .getElementById('officerFilter');
+    officers.forEach(name => {
+        const option = document
+            .createElement('option');
+        option.value = name;
+        option.textContent = name;
+        select.appendChild(option);
+    });
+}
+
+// ── Render Table
+function renderTable(data) {
+    document.getElementById('recordCount')
+        .textContent =
+            `(${data.length} records)`;
+
+    UTILS.populateTable(
+        'complaintsTable',
+        data,
+        (c, i) => `
+        <tr style="cursor:pointer">
+            <td>${i + 1}</td>
+            <td>
+                <strong style="color:
+                    var(--saffron);
+                    font-family:monospace;
+                    font-size:0.8rem">
+                    ${c.complaintId}
+                </strong>
+            </td>
+            <td>
+                <strong>${c.callerName}
+                </strong><br>
+                <small style="color:
+                    var(--gray)">
+                    📞 ${c.callerMobile}
+                </small>
+            </td>
+            <td>${c.district || '-'}</td>
+            <td title="${c.subject}">
+                ${UTILS.truncate(
+                    c.subject, 25)}
+            </td>
+            <td>
+                ${UTILS.getPriorityBadge(
+                    c.priority)}
+            </td>
+            <td>
+                ${UTILS.getStatusBadge(
+                    c.status)}
+            </td>
+            <td>${c.assignedName || '-'}
+            </td>
+            <td>
+                <small style="color:
+                    ${c.priority === 'CRITICAL'
+                    ? '#DC3545' : 'var(--gray)'}">
+                    ${UTILS.getTimeAgo(
+                        c.createdDate)}
+                </small>
+            </td>
+            <td>
+                <button class="btn btn-sm"
+                    style="background:
+                    linear-gradient(135deg,
+                    #6F42C1,#9B59B6);
+                    color:white"
+                    onclick=
+                    "openMinAction(
+                    '${c.complaintId}',
+                    '${(c.subject || '')
+                        .replace(/'/g,
+                        "\\'")}',
+                    '${c.callerName}',
+                    '${c.assignedName
+                        || ''}',
+                    '${c.status}')">
+                    <i class="fas
+                        fa-crown"></i>
+                    Act
+                </button>
+            </td>
+        </tr>`
+    );
+}
+
+// ── Apply Filter
+function applyFilter() {
+    const search = document
+        .getElementById('searchInput')
+        ?.value.toLowerCase() || '';
+    const status = document
+        .getElementById('statusFilter')
+        ?.value || '';
+    const priority = document
+        .getElementById('priorityFilter')
+        ?.value || '';
+    const officer = document
+        .getElementById('officerFilter')
+        ?.value || '';
+
+    const filtered = allData.filter(c => {
+        const matchSearch = !search
+            || (c.callerName || '')
+                .toLowerCase()
+                .includes(search)
+            || (c.complaintId || '')
+                .toLowerCase()
+                .includes(search)
+            || (c.subject || '')
+                .toLowerCase()
+                .includes(search)
+            || (c.district || '')
+                .toLowerCase()
+                .includes(search)
+            || (c.callerMobile || '')
+                .includes(search);
+
+        const matchStatus = !status
+            || c.status === status;
+        const matchPriority = !priority
+            || c.priority === priority;
+        const matchOfficer = !officer
+            || c.assignedName === officer;
+
+        return matchSearch
+            && matchStatus
+            && matchPriority
+            && matchOfficer;
+    });
+
+    renderTable(filtered);
+}
+
+// ── Open Minister Action
+function openMinAction(id, subject,
+        caller, officer, status) {
+    // Redirect to dashboard
+    // with complaint pre-selected
+    sessionStorage.setItem(
+        'selected_complaint',
+        JSON.stringify({
+            id, subject,
+            caller, officer, status
+        }));
+    window.location.href =
+        'dashboard.html';
+}
+</script>
+
+</body>
+</html>

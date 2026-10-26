@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>New Complaint |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <link rel="stylesheet"
+        href="../assets/css/dashboard.css">
+    <link rel="stylesheet"
+        href="../assets/css/components.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-landmark"></i>
+            </div>
+            <div class="sidebar-title">
+                <h2>Minister ERP</h2>
+                <span>Control Room</span>
+            </div>
+        </div>
+        <div class="sidebar-profile">
+            <div class="profile-avatar
+                user-avatar">OP</div>
+            <div class="profile-info">
+                <h4 class="user-name">
+                    Operator</h4>
+                <span>OPERATOR</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    Main Menu
+                </div>
+                <a href="dashboard.html"
+                    class="nav-item"
+                    data-page="dashboard">
+                    <i class="fas
+                        fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="new-complaint.html"
+                    class="nav-item active"
+                    data-page="new-complaint">
+                    <i class="fas
+                        fa-plus-circle"></i>
+                    <span>New Complaint</span>
+                </a>
+                <a href="complaints.html"
+                    class="nav-item"
+                    data-page="complaints">
+                    <i class="fas
+                        fa-clipboard-list"></i>
+                    <span>All Complaints</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="nav-item"
+                onclick="AUTH.logout()">
+                <i class="fas
+                    fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- ── MAIN CONTENT ── -->
+    <main class="main-content"
+        id="mainContent">
+
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Register New Complaint
+                    </h1>
+                    <p>Fill caller and complaint
+                        details below</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <span class="time"
+                        id="currentTime"></span>
+                    <span class="date"
+                        id="currentDate"></span>
+                </div>
+                <button class="header-btn"
+                    onclick="UTILS
+                    .toggleNotificationPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count"
+                        id="notifCount"
+                        style="display:none">
+                        0
+                    </span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+
+            <!-- Form Steps Indicator -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="form-steps">
+
+                        <div class="form-step
+                            active"
+                            id="stepIndicator1">
+                            <div class="step-num">
+                                <i class="fas
+                                    fa-user"></i>
+                            </div>
+                            <div class="step-text">
+                                Caller Details
+                            </div>
+                        </div>
+
+                        <div class="form-step"
+                            id="stepIndicator2">
+                            <div class="step-num">
+                                <i class="fas
+                                    fa-file-alt">
+                                </i>
+                            </div>
+                            <div class="step-text">
+                                Complaint Info
+                            </div>
+                        </div>
+
+                        <div class="form-step"
+                            id="stepIndicator3">
+                            <div class="step-num">
+                                <i class="fas
+                                    fa-user-check">
+                                </i>
+                            </div>
+                            <div class="step-text">
+                                Assignment
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaint Form -->
+            <div class="card">
+                <div class="card-body">
+                    <form id="complaintForm">
+
+                        <!-- STEP 1:
+                            Caller Details -->
+                        <div class="form-section
+                            active"
+                            id="step1Section">
+
+                            <div class=
+                                "form-section-title">
+                                <i class="fas
+                                    fa-user"></i>
+                                <h3>
+                                    Caller Details
+                                </h3>
+                            </div>
+
+                            <div class="form-row">
+                                <div class=
+                                    "form-group">
+                                    <label
+                                        class=
+                                        "form-label">
+                                        Full Name
+                                        <span>*
+                                        </span>
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id=
+                                        "callerName"
+                                        name=
+                                        "callerName"
+                                        class=
+                                        "form-control"
+                                        placeholder=
+                                        "Enter caller's full name"
+                                        required>
+                                </div>
+                                <div class=
+                                    "form-group">
+                                    <label
+                                        class=
+                                        "form-label">
+                                        Mobile No.
+                                        <span>*
+                                        </span>
+                                    </label>
+                                    <div class=
+                                        "input-icon-group">
+                                        <i class=
+                                        "fas fa-phone">
+                                        </i>
+                                        <input
+                                            type=
+                                            "tel"
+                                            id=
+                                            "callerMobile"
+                                            name=
+                                            "callerMobile"
+                                            class=
+                                            "form-control"
+                                            placeholder=
+                                            "10-digit mobile"
+                                            maxlength=
+                                            "10"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=
+                                "form-group">
+                                <label class=
+                                    "form-label">
+                                    Address
+                                </label>
+                                <textarea
+                                    id=
+                                    "callerAddress"
+                                    name=
+                                    "callerAddress"
+                                    class=
+                                    "form-control"
+                                    rows="2"
+                                    placeholder=
+                                    "Enter complete address">
+                                </textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class=
+                                    "form-group">
+                                    <label
+                                        class=
+                                        "form-label">
+                                        District
+                                        <span>*
+                                        </span>
+                                    </label>
+                                    <div class=
+                                        "select-wrapper">
+                                        <select
+                                            id=
+                                            "district"
+                                            name=
+                                            "district"
+                                            class=
+                                            "form-control"
+                                            required>
+                                            <option
+                                                value="">
+                                                Select District
+                                            </option>
+                                            <option>Lucknow</option>
+                                            <option>Kannauj</option>
+                                            <option>Agra</option>
+                                            <option>Meerut</option>
+                                            <option>Varanasi</option>
+                                            <option>Prayagraj</option>
+                                            <option>Kanpur</option>
+                                            <option>Ghaziabad</option>
+                                            <option>Noida</option>
+                                            <option>Mathura</option>
+                                            <option>Aligarh</option>
+                                            <option>Moradabad</option>
+                                            <option>Bareilly</option>
+                                            <option>Saharanpur</option>
+                                            <option>Muzaffarnagar</option>
+                                            <option>Gautam Buddh Nagar</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class=
+                                    "form-group">
+                                    <label
+                                        class=
+                                        "form-label">
+                                        State
+                                    </label>
+                                    <input
+                                        type="text"
+                                        id="state"
+                                        name="state"
+                                        class=
+                                        "form-control"
+                                        value=
+                                        "Uttar Pradesh"
+                                        placeholder=
+                                        "State">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- STEP 2:
+                            Complaint Details -->
+                        <div class="form-section"
+                            id="step2Section">
+
+                            <div class=
+                                "form-section-title">
+                                <i class="fas
+                                    fa-file-alt">
+                                </i>
+                                <h3>
+                                    Complaint Details
+                                </h3>
+                            </div>
+
+                            <div class=
+                                "form-group">
+                                <label class=
+                                    "form-label">
+                                    Subject
+                                    <span>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    id="subject"
+                                    name="subject"
+                                    class=
+                                    "form-control"
+                                    placeholder=
+                                    "Brief subject of complaint"
+                                    required>
+                            </div>
+
+                            <div class=
+                                "form-group">
+                                <label class=
+                                    "form-label">
+                                    Description
+                                    <span>*</span>
+                                </label>
+                                <textarea
+                                    id=
+                                    "description"
+                                    name=
+                                    "description"
+                                    class=
+                                    "form-control"
+                                    rows="4"
+                                    placeholder=
+                                    "Detailed description of the complaint..."
+                                    required>
+                                </textarea>
+                            </div>
+
+                            <div class="form-row">
+                                <div class=
+                                    "form-group">
+                                    <label
+                                        class=
+                                        "form-label">
+                                        Category
+                                        <span>*
+                                        </span>
+                                    </label>
+                                    <div class=
+                                        "select-wrapper">
+                                        <select
+                                            id=
+                                            "category"
+                                            name=
+                                            "category"
+                                            class=
+                                            "form-control"
+                                            required>
+                                            <option
+                                                value="">
+                                                Select Category
+                                            </option>
+                                            <option
+                                                value=
+                                                "KANNAUJ">
+                                                Kannauj Matters
+                                            </option>
+                                            <option
+                                                value=
+                                                "POLICE">
+                                                Police/FIR/Crime
+                                            </option>
+                                            <option
+                                                value=
+                                                "APPOINTMENT">
+                                                Appointment
+                                            </option>
+                                            <option
+                                                value=
+                                                "BJP">
+                                                BJP/RSS Matters
+                                            </option>
+                                            <option
+                                                value=
+                                                "WESTERN_UP">
+                                                Western UP/Delhi NCR
+                                            </option>
+                                            <option
+                                                value=
+                                                "GENERAL">
+                                                General Grievance
+                                            </option>
+                                            <option
+                                                value=
+                                                "LAND">
+                                                Land/Property
+                                            </option>
+                                            <option
+                                                value=
+                                                "WATER">
+                                                Water/Electricity
+                                            </option>
+                                            <option
+                                                value=
+                                                "HEALTH">
+                                                Health Services
+                                            </option>
+                                            <option
+                                                value=
+                                                "EDUCATION">
+                                                Education
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Priority -->
+                            <div class=
+                                "form-group">
+                                <label class=
+                                    "form-label">
+                                    Priority
+                                    <span>*</span>
+                                </label>
+                                <input type=
+                                    "hidden"
+                                    id="priority"
+                                    name=
+                                    "priority"
+                                    value="LOW">
+                                <div class=
+                                    "priority-selector">
+                                    <div class=
+                                        "priority-option
+                                        selected"
+                                        data-priority
+                                        ="LOW"
+                                        onclick=
+                                        "selectPriority(
+                                        'LOW')">
+                                        <i class=
+                                        "fas fa-circle">
+                                        </i>
+                                        <span>Low
+                                        </span>
+                                    </div>
+                                    <div class=
+                                        "priority-option"
+                                        data-priority
+                                        ="MEDIUM"
+                                        onclick=
+                                        "selectPriority(
+                                        'MEDIUM')">
+                                        <i class=
+                                        "fas fa-circle">
+                                        </i>
+                                        <span>Medium
+                                        </span>
+                                    </div>
+                                    <div class=
+                                        "priority-option"
+                                        data-priority
+                                        ="HIGH"
+                                        onclick=
+                                        "selectPriority(
+                                        'HIGH')">
+                                        <i class=
+                                        "fas fa-circle">
+                                        </i>
+                                        <span>High
+                                        </span>
+                                    </div>
+                                    <div class=
+                                        "priority-option"
+                                        data-priority
+                                        ="CRITICAL"
+                                        onclick=
+                                        "selectPriority(
+                                        'CRITICAL')">
+                                        <i class=
+                                        "fas fa-circle">
+                                        </i><span>Critical
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- STEP 3: Assignment -->
+                        <div class="form-section"
+                            id="step3Section">
+
+                            <div class=
+                                "form-section-title">
+                                <i class="fas
+                                    fa-user-check">
+                                </i>
+                                <h3>
+                                    Officer Assignment
+                                </h3>
+                            </div>
+
+                            <!-- Auto Suggestion -->
+                            <div class=
+                                "officer-suggestion"
+                                id=
+                                "officerSuggestion">
+                                <div class=
+                                    "suggestion-avatar"
+                                    id=
+                                    "suggested_avatar">
+                                    ?
+                                </div>
+                                <div class=
+                                    "suggestion-info">
+                                    <h4 id=
+                                        "suggested_name">
+                                    </h4>
+                                    <p id=
+                                        "suggested_dept">
+                                    </p>
+                                </div>
+                                <span class=
+                                    "suggestion-label">
+                                    Auto Suggested
+                                </span>
+                            </div>
+
+                            <!-- Hidden Fields -->
+                            <input type="hidden"
+                                id="assignedTo"
+                                name="assignedTo">
+                            <input type="hidden"
+                                id="assignedName"
+                                name="assignedName">
+
+                            <div class=
+                                "form-group"
+                                style=
+                                "margin-top:16px">
+                                <label class=
+                                    "form-label">
+                                    Assign To Officer
+                                </label>
+                                <div class=
+                                    "select-wrapper">
+                                    <select
+                                        id=
+                                        "officerSelect"
+                                        class=
+                                        "form-control"
+                                        onchange=
+                                        "overrideOfficer(
+                                        this)">
+                                        <option
+                                            value="">
+                                            Use Auto
+                                            Suggestion
+                                        </option>
+                                    </select>
+                                </div>
+                                <p style=
+                                    "font-size:
+                                    0.78rem;
+                                    color:var(--gray);
+                                    margin-top:6px">
+                                    <i class="fas
+                                        fa-info-circle"
+                                        style="color:
+                                        var(--saffron)">
+                                    </i>
+                                    Officer is
+                                    auto-suggested
+                                    based on category.
+                                    You can override.
+                                </p>
+                            </div>
+
+                            <!-- Preview -->
+                            <div style=
+                                "background:
+                                var(--saffron-pale);
+                                border-radius:
+                                var(--border-radius);
+                                padding:16px;
+                                margin-top:16px">
+                                <h4 style=
+                                    "font-size:
+                                    0.9rem;
+                                    color:
+                                    var(--dark-gray);
+                                    margin-bottom:
+                                    12px">
+                                    <i class="fas
+                                        fa-eye"
+                                        style="color:
+                                        var(--saffron)">
+                                    </i>
+                                    Complaint Preview
+                                </h4>
+                                <div style=
+                                    "display:grid;
+                                    grid-template-columns:
+                                    1fr 1fr;
+                                    gap:10px;
+                                    font-size:
+                                    0.82rem">
+                                    <div>
+                                        <strong>
+                                            Caller:
+                                        </strong>
+                                        <span id=
+                                            "preview_caller">
+                                            -
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Mobile:
+                                        </strong>
+                                        <span id=
+                                            "preview_mobile">
+                                            -
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            District:
+                                        </strong>
+                                        <span id=
+                                            "preview_district">
+                                            -
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Category:
+                                        </strong>
+                                        <span id=
+                                            "preview_category">
+                                            -
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Priority:
+                                        </strong>
+                                        <span id=
+                                            "preview_priority">
+                                            -
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong>
+                                            Assigned:
+                                        </strong>
+                                        <span id=
+                                            "preview_officer">
+                                            -
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Form Navigation -->
+                        <div style=
+                            "display:flex;
+                            justify-content:
+                            space-between;
+                            margin-top:24px;
+                            padding-top:20px;
+                            border-top:1px solid
+                            #F1F3F5">
+
+                            <button
+                                type="button"
+                                id="prevBtn"
+                                class="btn
+                                btn-outline"
+                                style=
+                                "display:none"
+                                onclick=
+                                "COMPLAINTS
+                                .prevStep()">
+                                <i class="fas
+                                    fa-arrow-left">
+                                </i>
+                                Previous
+                            </button>
+
+                            <button
+                                type="button"
+                                id="nextBtn"
+                                class="btn
+                                btn-primary"
+                                onclick=
+                                "COMPLAINTS
+                                .nextStep()">
+                                Next
+                                <i class="fas
+                                    fa-arrow-right">
+                                </i>
+                            </button>
+
+                            <button
+                                type="button"
+                                id="submitBtn"
+                                class="btn
+                                btn-primary"
+                                style=
+                                "display:none"
+                                onclick=
+                                "submitComplaint()">
+                                <i class="fas
+                                    fa-paper-plane">
+                                </i>
+                                Submit Complaint
+                            </button>
+
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay"
+    id="successModal">
+    <div class="modal"
+        style="max-width:420px;
+        text-align:center">
+        <div class="modal-body"
+            style="padding:40px">
+            <div style=
+                "width:80px;height:80px;
+                background:#E8F5E9;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                margin:0 auto 20px;
+                font-size:2.5rem;
+                color:#28A745">
+                <i class="fas
+                    fa-check-circle"></i>
+            </div>
+            <h3 style="color:#28A745;
+                margin-bottom:8px">
+                Complaint Registered!
+            </h3>
+            <p style="color:var(--gray);
+                margin-bottom:4px">
+                Complaint ID:
+            </p>
+            <h2 style="color:var(--saffron);
+                font-family:monospace;
+                margin-bottom:20px"
+                id="successComplaintId">
+            </h2>
+            <p style="font-size:0.85rem;
+                color:var(--gray);
+                margin-bottom:24px">
+                Complaint has been registered
+                and officer notified.
+            </p>
+            <div style="display:flex;
+                gap:12px;
+                justify-content:center">
+                <button class="btn btn-outline"
+                    onclick="registerAnother()">
+                    <i class="fas fa-plus"></i>
+                    Register Another
+                </button>
+                <a href="complaints.html"
+                    class="btn btn-primary">
+                    <i class="fas
+                        fa-list"></i>
+                    View All
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Panel -->
+<div class="notification-panel"
+    id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3>
+            <i class="fas fa-bell"></i>
+            Notifications
+        </h3>
+        <button class="modal-close"
+            onclick="UTILS
+            .toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="notification-list"
+        id="notificationList"></div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"
+    class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/complaints.js">
+</script>
+
+<script>
+// ── Guard Page
+AUTH.guardPage('OPERATOR');
+
+// ── Initialize
+document.addEventListener(
+    'DOMContentLoaded', async () => {
+    UTILS.init();
+    COMPLAINTS.initMultiStepForm();
+
+    // Load officers dropdown
+    await COMPLAINTS.loadOfficers(
+        'officerSelect');
+
+    // Category change listener
+    document.getElementById('category')
+        ?.addEventListener('change', (e) => {
+        const district = document
+            .getElementById('district')?.value;
+        COMPLAINTS.suggestOfficer(
+            e.target.value, district);
+        updatePreview();
+    });
+
+    // Update preview on input
+    ['callerName', 'callerMobile',
+        'district', 'category']
+        .forEach(id => {
+        document.getElementById(id)
+            ?.addEventListener(
+            'input', updatePreview);
+        document.getElementById(id)
+            ?.addEventListener(
+            'change', updatePreview);
+    });
+});
+
+// ── Select Priority
+function selectPriority(priority) {
+    document.getElementById('priority')
+        .value = priority;
+    document.querySelectorAll(
+        '.priority-option')
+        .forEach(opt => {
+        opt.classList.remove('selected');
+        if (opt.dataset.priority === priority) {
+            opt.classList.add('selected');
+        }
+    });
+    updatePreview();
+}
+
+// ── Override Officer
+function overrideOfficer(select) {
+    const option = select.options[
+        select.selectedIndex];
+    if (option.value) {
+        document.getElementById('assignedTo')
+            .value = option.value;
+        document.getElementById('assignedName')
+            .value = option.dataset.name
+                || option.text;
+        document.getElementById(
+            'preview_officer').textContent =
+                option.dataset.name
+                || option.text;
+    }
+}
+
+// ── Update Preview
+function updatePreview() {
+    const fields = {
+        'preview_caller': 'callerName',
+        'preview_mobile': 'callerMobile',
+        'preview_district': 'district',
+        'preview_category': 'category',
+        'preview_priority': 'priority',
+        'preview_officer': 'assignedName'
+    };
+
+    Object.keys(fields).forEach(previewId => {
+        const inputId = fields[previewId];
+        const input = document
+            .getElementById(inputId);
+        const preview = document
+            .getElementById(previewId);
+        if (input && preview) {
+            preview.textContent =
+                input.value || '-';
+        }
+    });
+}
+
+// ── Submit Complaint
+async function submitComplaint() {
+    if (!COMPLAINTS.validateStep(3)) return;
+
+    const data = UTILS.getFormData(
+        'complaintForm');
+
+    UTILS.showLoading(true,
+        'Registering complaint...');
+
+    const result = await API.complaints
+        .create(data);
+
+    UTILS.showLoading(false);
+
+    if (result && result.success) {
+        document.getElementById(
+            'successComplaintId')
+            .textContent =
+                result.data.complaintId;
+        UTILS.openModal('successModal');
+    } else {
+        UTILS.showToast(
+            result?.message
+            || 'Registration failed',
+            'error');
+    }
+}
+
+// ── Register Another
+function registerAnother() {
+    UTILS.closeAllModals();
+    UTILS.resetForm('complaintForm');
+    COMPLAINTS.currentStep = 1;
+    COMPLAINTS.showStep(1);
+    document.getElementById(
+        'officerSuggestion')
+        .className = 'officer-suggestion';
+}
+</script>
+
+</body>
+</html>

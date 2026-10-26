@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>All Complaints |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <link rel="stylesheet"
+        href="../assets/css/dashboard.css">
+    <link rel="stylesheet"
+        href="../assets/css/components.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <i class="fas fa-landmark"></i>
+            </div>
+            <div class="sidebar-title">
+                <h2>Minister ERP</h2>
+                <span>Control Room</span>
+            </div>
+        </div>
+        <div class="sidebar-profile">
+            <div class="profile-avatar
+                user-avatar">OP</div>
+            <div class="profile-info">
+                <h4 class="user-name">
+                    Operator</h4>
+                <span>OPERATOR</span>
+            </div>
+        </div>
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    Main Menu
+                </div>
+                <a href="dashboard.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="new-complaint.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-plus-circle"></i>
+                    <span>New Complaint</span>
+                </a>
+                <a href="complaints.html"
+                    class="nav-item active">
+                    <i class="fas
+                        fa-clipboard-list"></i>
+                    <span>All Complaints</span>
+                </a>
+            </div>
+        </nav>
+        <div class="sidebar-footer">
+            <button class="nav-item"
+                onclick="AUTH.logout()">
+                <i class="fas
+                    fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"
+        id="mainContent">
+
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>All Complaints</h1>
+                    <p>Search, filter and
+                        manage complaints</p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <span class="time"
+                        id="currentTime"></span>
+                    <span class="date"
+                        id="currentDate"></span>
+                </div>
+                <button class="header-btn"
+                    onclick="UTILS
+                    .toggleNotificationPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count"
+                        id="notifCount"
+                        style="display:none">0
+                    </span>
+                </button>
+                <a href="new-complaint.html"
+                    class="btn btn-primary
+                    btn-sm">
+                    <i class="fas fa-plus"></i>
+                    New Complaint
+                </a>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+
+                <!-- Search -->
+                <div class="search-bar"
+                    style="flex:1;
+                    min-width:200px">
+                    <i class="fas fa-search">
+                    </i>
+                    <input type="text"
+                        id="searchInput"
+                        placeholder=
+                        "Search by name, mobile,
+                        ID, subject...">
+                </div>
+
+                <!-- Status Filter -->
+                <select id="statusFilter"
+                    class="filter-select"
+                    onchange="applyFilters()">
+                    <option value="">
+                        All Status
+                    </option>
+                    <option value="NEW">
+                        New
+                    </option>
+                    <option value="ASSIGNED">
+                        Assigned
+                    </option>
+                    <option value="PENDING">
+                        Pending
+                    </option>
+                    <option value=
+                        "ACTION_TAKEN">
+                        Action Taken
+                    </option>
+                    <option value="ESCALATED">
+                        Escalated
+                    </option>
+                    <option value=
+                        "MINISTER_REVIEW">
+                        Minister Review
+                    </option>
+                    <option value="RESOLVED">
+                        Resolved
+                    </option>
+                    <option value="CLOSED">
+                        Closed
+                    </option>
+                </select>
+
+                <!-- Priority Filter -->
+                <select id="priorityFilter"
+                    class="filter-select"
+                    onchange="applyFilters()">
+                    <option value="">
+                        All Priority
+                    </option>
+                    <option value="LOW">
+                        Low
+                    </option>
+                    <option value="MEDIUM">
+                        Medium
+                    </option>
+                    <option value="HIGH">
+                        High
+                    </option>
+                    <option value="CRITICAL">
+                        Critical
+                    </option>
+                </select>
+
+                <!-- Category Filter -->
+                <select id="categoryFilter"
+                    class="filter-select"
+                    onchange="applyFilters()">
+                    <option value="">
+                        All Categories
+                    </option>
+                    <option value="KANNAUJ">
+                        Kannauj
+                    </option>
+                    <option value="POLICE">
+                        Police/FIR
+                    </option>
+                    <option value=
+                        "APPOINTMENT">
+                        Appointment
+                    </option>
+                    <option value="BJP">
+                        BJP/RSS
+                    </option>
+                    <option value=
+                        "WESTERN_UP">
+                        Western UP
+                    </option>
+                    <option value="GENERAL">
+                        General
+                    </option>
+                </select>
+
+                <!-- Export Buttons -->
+                <button class="btn btn-outline
+                    btn-sm"
+                    onclick=
+                    "API.reports.exportDaily()">
+                    <i class="fas
+                        fa-file-excel"></i>
+                    Export Excel
+                </button>
+
+                <!-- Refresh -->
+                <button class="btn btn-outline
+                    btn-sm"
+                    onclick="loadComplaints()">
+                    <i class="fas fa-sync"></i>
+                </button>
+
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stats-grid"
+                style="grid-template-columns:
+                repeat(4,1fr);
+                margin-bottom:16px">
+                <div class="stat-card blue"
+                    style="cursor:pointer"
+                    onclick=
+                    "filterByStatus('ALL')">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-list"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_total">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Total
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card red"
+                    style="cursor:pointer"
+                    onclick=
+                    "filterByStatus('PENDING')">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-hourglass"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_pending">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Pending
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card purple"
+                    style="cursor:pointer"
+                    onclick=
+                    "filterByStatus(
+                    'ESCALATED')">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_escalated">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Escalated
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-card teal"
+                    style="cursor:pointer"
+                    onclick=
+                    "filterByStatus('RESOLVED')">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_resolved">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Resolved
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaints Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i class="fas
+                            fa-clipboard-list">
+                        </i>
+                        Complaints List
+                        <span id="recordCount"
+                            style="font-size:
+                            0.8rem;
+                            color:var(--gray);
+                            font-weight:400;
+                            margin-left:8px">
+                        </span>
+                    </h3>
+                    <div style="display:flex;
+                        gap:8px">
+                        <button
+                            class="btn
+                            btn-outline btn-sm"
+                            onclick=
+                            "UTILS.printSection(
+                            'complaintsTable')">
+                            <i class="fas
+                                fa-print"></i>
+                            Print
+                        </button>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table class="table
+                        table-striped"
+                        id="complaintsTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Complaint ID</th>
+                                <th>Caller Details</th>
+                                <th>District</th>
+                                <th>Subject</th>
+                                <th>Category</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Assigned To</th>
+                                <th>Date</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td colspan="11"
+                                    style=
+                                    "text-align:
+                                    center;
+                                    padding:40px;
+                                    color:#999">
+                                    <i class=
+                                    "fas fa-spinner
+                                    fa-spin"
+                                    style=
+                                    "font-size:
+                                    2rem"></i>
+                                    <p>Loading
+                                    complaints...
+                                    </p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Complaint Detail Modal -->
+<div class="modal-overlay"
+    id="complaintModal">
+    <div class="modal"
+        style="max-width:750px">
+        <div class="modal-header">
+            <h3>
+                <i class="fas
+                    fa-file-alt"></i>
+                Complaint Details
+                <span id="modal_id"
+                    style="font-size:0.85rem;
+                    color:var(--saffron);
+                    font-family:monospace;
+                    margin-left:8px">
+                </span>
+            </h3>
+            <button class="modal-close"
+                onclick="UTILS.closeModal(
+                'complaintModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body"
+            style="max-height:70vh;
+            overflow-y:auto">
+
+            <!-- Status & Priority -->
+            <div style="display:flex;
+                gap:10px;margin-bottom:16px">
+                <span id="modal_status"></span>
+                <span id="modal_priority">
+                </span>
+            </div>
+
+            <!-- Workflow -->
+            <div class="workflow-steps"
+                style="margin-bottom:20px">
+                <div class="workflow-step"
+                    id="step_NEW">
+                    <div class="step-circle">
+                        <i class="fas fa-plus">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        New
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_ASSIGNED">
+                    <div class="step-circle">
+                        <i class="fas
+                            fa-user-check">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Assigned
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_PENDING">
+                    <div class="step-circle">
+                        <i class="fas
+                            fa-hourglass">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Pending
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_ACTION_TAKEN">
+                    <div class="step-circle">
+                        <i class="fas fa-check">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Action
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_ESCALATED">
+                    <div class="step-circle">
+                        <i class="fas
+                            fa-arrow-up">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Escalated
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_RESOLVED">
+                    <div class="step-circle">
+                        <i class="fas
+                            fa-check-double">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Resolved
+                    </div>
+                </div>
+                <div class="workflow-step"
+                    id="step_CLOSED">
+                    <div class="step-circle">
+                        <i class="fas fa-lock">
+                        </i>
+                    </div>
+                    <div class="step-label">
+                        Closed
+                    </div>
+                </div>
+            </div>
+            <!-- Caller Details -->
+            <div class="detail-section">
+                <h4>
+                    <i class="fas fa-user"></i>
+                    Caller Information
+                </h4>
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <label>Caller Name</label>
+                        <p id="modal_caller"></p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Mobile Number</label>
+                        <p id="modal_mobile"></p>
+                    </div>
+                    <div class="detail-item">
+                        <label>District</label>
+                        <p id="modal_district">
+                        </p>
+                    </div>
+                    <div class="detail-item">
+                        <label>State</label>
+                        <p id="modal_state"></p>
+                    </div>
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Address</label>
+                        <p id="modal_address">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Complaint Details -->
+            <div class="detail-section">
+                <h4>
+                    <i class="fas
+                        fa-file-alt"></i>
+                    Complaint Information
+                </h4>
+                <div class="detail-grid">
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Subject</label>
+                        <p id="modal_subject">
+                        </p>
+                    </div>
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Description
+                        </label>
+                        <p id="modal_description"
+                            style="line-height:
+                            1.6">
+                        </p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Category</label>
+                        <p id="modal_category">
+                        </p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Assigned To</label>
+                        <p id="modal_assigned">
+                        </p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Registered By</label>
+                        <p id="modal_operator">
+                        </p>
+                    </div>
+                    <div class="detail-item">
+                        <label>Registered On</label>
+                        <p id="modal_date"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Taken -->
+            <div class="detail-section">
+                <h4>
+                    <i class="fas
+                        fa-tasks"></i>
+                    Action & Updates
+                </h4>
+                <div class="detail-grid">
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Action Taken
+                        </label>
+                        <p id="modal_action">
+                        </p>
+                    </div>
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Minister Note
+                        </label>
+                        <p id=
+                            "modal_minister_note">
+                        </p>
+                    </div>
+                    <div class="detail-item"
+                        style="grid-column:
+                        span 2">
+                        <label>Minister Direction
+                        </label>
+                        <p id="modal_direction">
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Audit Trail -->
+            <div class="detail-section">
+                <h4>
+                    <i class="fas
+                        fa-history"></i>
+                    Activity Timeline
+                </h4>
+                <div id="auditTrail">
+                    <div style="text-align:
+                        center;padding:20px;
+                        color:#999">
+                        <i class="fas
+                            fa-spinner fa-spin">
+                        </i>
+                        Loading timeline...
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assign Section -->
+            <div class="detail-section">
+                <h4>
+                    <i class="fas
+                        fa-user-check"></i>
+                    Assign / Reassign Officer
+                </h4>
+                <div style="display:flex;
+                    gap:12px;
+                    align-items:flex-end">
+                    <div class="form-group"
+                        style="flex:1;margin:0">
+                        <label class=
+                            "form-label">
+                            Select Officer
+                        </label>
+                        <div class=
+                            "select-wrapper">
+                            <select
+                                id=
+                                "reassignOfficer"
+                                class="form-control">
+                                <option value="">
+                                    Select Officer
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <button
+                        class="btn btn-primary"
+                        onclick="reassignComplaint()">
+                        <i class="fas
+                            fa-user-check"></i>
+                        Assign
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="modal-footer">
+            <button class="btn btn-outline"
+                onclick="UTILS.closeModal(
+                'complaintModal')">
+                Close
+            </button>
+            <button class="btn btn-warning"
+                onclick="closeCurrentComplaint()">
+                <i class="fas fa-lock"></i>
+                Close Case
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Panel -->
+<div class="notification-panel"
+    id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3>
+            <i class="fas fa-bell"></i>
+            Notifications
+        </h3>
+        <button class="modal-close"
+            onclick="UTILS
+            .toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="notification-list"
+        id="notificationList"></div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"
+    class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/complaints.js">
+</script>
+
+<script>
+// ── Guard Page
+AUTH.guardPage('OPERATOR');
+
+// ── All complaints data
+let allData = [];
+
+// ── Initialize
+document.addEventListener(
+    'DOMContentLoaded', async () => {
+    UTILS.init();
+    await loadComplaints();
+
+    // Search listener
+    document.getElementById('searchInput')
+        ?.addEventListener('input',
+        UTILS.debounce(applyFilters, 300));
+});
+
+// ── Load All Complaints
+async function loadComplaints() {
+    try {
+        UTILS.showLoading(true);
+        const result = await API
+            .complaints.getAll();
+
+        if (result && result.success) {
+            allData = result.data || [];
+            renderComplaints(allData);
+            updateStats(allData);
+
+            // Load officers for reassign
+            await COMPLAINTS.loadOfficers(
+                'reassignOfficer');
+        }
+    } catch (e) {
+        UTILS.showToast(
+            'Failed to load', 'error');
+    } finally {
+        UTILS.showLoading(false);
+    }
+}
+
+// ── Render Complaints Table
+function renderComplaints(data) {
+    document.getElementById('recordCount')
+        .textContent =
+            `(${data.length} records)`;
+
+    UTILS.populateTable(
+        'complaintsTable',
+        data,
+        (c, i) => `
+        <tr style="cursor:pointer"
+            onclick="viewComplaint(
+            '${c.complaintId}')">
+            <td>${i + 1}</td>
+            <td>
+                <strong style="color:
+                    var(--saffron);
+                    font-family:monospace;
+                    font-size:0.8rem">
+                    ${c.complaintId}
+                </strong>
+            </td>
+            <td>
+                <strong>${c.callerName}
+                </strong><br>
+                <small style="color:
+                    var(--gray)">
+                    📞 ${c.callerMobile}
+                </small>
+            </td>
+            <td>${c.district || '-'}</td>
+            <td title="${c.subject}">
+                ${UTILS.truncate(
+                    c.subject, 25)}
+            </td>
+            <td>
+                <span style="font-size:
+                    0.78rem;background:
+                    var(--blue-pale);
+                    color:var(--blue);
+                    padding:2px 8px;
+                    border-radius:10px">
+                    ${c.category || '-'}
+                </span>
+            </td>
+            <td>
+                ${UTILS.getPriorityBadge(
+                    c.priority)}
+            </td>
+            <td>
+                ${UTILS.getStatusBadge(
+                    c.status)}
+            </td>
+            <td>${c.assignedName || '-'}</td>
+            <td>
+                <small style="color:
+                    var(--gray)">
+                    ${UTILS.formatDate(
+                        c.createdDate)}
+                </small>
+            </td>
+            <td onclick="event
+                .stopPropagation()">
+                <button class="btn
+                    btn-outline btn-sm"
+                    onclick="viewComplaint(
+                    '${c.complaintId}')">
+                    <i class="fas
+                        fa-eye"></i>
+                </button>
+            </td>
+        </tr>`
+    );
+}
+
+// ── Update Stats
+function updateStats(data) {
+    document.getElementById('stat_total')
+        .textContent = data.length;
+    document.getElementById('stat_pending')
+        .textContent = data.filter(c =>
+            c.status === 'PENDING'
+            || c.status === 'NEW'
+            || c.status === 'ASSIGNED').length;
+    document.getElementById('stat_escalated')
+        .textContent = data.filter(c =>
+            c.status === 'ESCALATED').length;
+    document.getElementById('stat_resolved')
+        .textContent = data.filter(c =>
+            c.status === 'RESOLVED'
+            || c.status === 'CLOSED').length;
+}
+
+// ── Apply Filters
+function applyFilters() {
+    const search = document
+        .getElementById('searchInput')
+        ?.value.toLowerCase() || '';
+    const status = document
+        .getElementById('statusFilter')
+        ?.value || '';
+    const priority = document
+        .getElementById('priorityFilter')
+        ?.value || '';
+    const category = document
+        .getElementById('categoryFilter')
+        ?.value || '';
+
+    const filtered = allData.filter(c => {
+        const matchSearch = !search
+            || (c.callerName || '')
+                .toLowerCase().includes(search)
+            || (c.callerMobile || '')
+                .includes(search)
+            || (c.complaintId || '')
+                .toLowerCase().includes(search)
+            || (c.subject || '')
+                .toLowerCase().includes(search)
+            || (c.district || '')
+                .toLowerCase().includes(search);
+
+        const matchStatus = !status
+            || c.status === status;
+        const matchPriority = !priority
+            || c.priority === priority;
+        const matchCategory = !category
+            || c.category === category;
+
+        return matchSearch && matchStatus
+            && matchPriority && matchCategory;
+    });
+
+    renderComplaints(filtered);
+    document.getElementById('recordCount')
+        .textContent =
+            `(${filtered.length} records)`;
+}
+
+// ── Filter by Status (from stat cards)
+function filterByStatus(status) {
+    const select = document
+        .getElementById('statusFilter');
+    if (select) {
+        select.value = status === 'ALL'
+            ? '' : status;
+    }
+    applyFilters();
+}
+
+// ── View Complaint
+async function viewComplaint(id) {
+    await COMPLAINTS.viewDetail(id);
+}
+
+// ── Reassign Complaint
+async function reassignComplaint() {
+    const select = document
+        .getElementById('reassignOfficer');
+    const option = select.options[
+        select.selectedIndex];
+
+    if (!option.value) {
+        UTILS.showToast(
+            'Please select an officer',
+            'warning');
+        return;
+    }
+
+    const complaint =
+        COMPLAINTS.currentComplaint;
+    if (!complaint) return;
+
+    UTILS.confirm(
+        `Assign complaint to ${option.text}?`,
+        async () => {
+            const result = await API
+                .complaints.assign(
+                    complaint.complaintId,
+                    option.value,
+                    option.dataset.name
+                    || option.text);
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    'Assigned successfully',
+                    'success');
+                UTILS.closeAllModals();
+                await loadComplaints();
+            } else {
+                UTILS.showToast(
+                    'Assignment failed',
+                    'error');
+            }
+        });
+}
+
+// ── Close Current Complaint
+async function closeCurrentComplaint() {
+    const complaint =
+        COMPLAINTS.currentComplaint;
+    if (!complaint) return;
+
+    UTILS.confirm(
+        'Are you sure you want to close '
+        + 'this complaint?',
+        async () => {
+            const result = await API
+                .complaints.close(
+                    complaint.complaintId,
+                    'Closed by operator');
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    'Complaint closed',
+                    'success');
+                UTILS.closeAllModals();
+                await loadComplaints();
+            }
+        },
+        'Close Complaint'
+    );
+}
+</script>
+
+</body>
+</html>

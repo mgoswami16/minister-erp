@@ -1,0 +1,76 @@
+{
+    "name": "Minister Office ERP",
+    "short_name": "Minister ERP",
+    "description": "Control Room ERP System for Hon. Minister Shri Asim Arun",
+    "start_url": "/operator/index.html",
+    "display": "standalone",
+    "background_color": "#003399",
+    "theme_color": "#FF6600",
+    "orientation": "any",
+    "scope": "/",
+    "lang": "en-IN",
+    "icons": [
+        {
+            "src": "assets/img/icon-72.png",
+            "sizes": "72x72",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/img/icon-96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/img/icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/img/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "assets/img/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": [
+        "government",
+        "productivity",
+        "utilities"
+    ],
+    "screenshots": [],
+    "shortcuts": [
+        {
+            "name": "New Complaint",
+            "short_name": "New",
+            "description": "Register new complaint",
+            "url": "/operator/new-complaint.html",
+            "icons": [
+                {
+                    "src": "assets/img/icon-96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "All Complaints",
+            "short_name": "Complaints",
+            "description": "View all complaints",
+            "url": "/operator/complaints.html",
+            "icons": [
+                {
+                    "src": "assets/img/icon-96.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ]
+}

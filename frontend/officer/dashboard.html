@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>Officer Dashboard |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <link rel="stylesheet"
+        href="../assets/css/dashboard.css">
+    <link rel="stylesheet"
+        href="../assets/css/components.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar"
+        style="background:linear-gradient(
+        180deg,#002277 0%,#003399 100%)">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background:linear-gradient(
+                135deg,#003399,#1a4db3)">
+                <i class="fas fa-landmark">
+                </i>
+            </div>
+            <div class="sidebar-title">
+                <h2>Minister ERP</h2>
+                <span>Officer Portal</span>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar
+                user-avatar"
+                style="background:linear-gradient(
+                135deg,#003399,#1a4db3)">
+                OF
+            </div>
+            <div class="profile-info">
+                <h4 class="user-name">
+                    Officer</h4>
+                <span class="user-dept">
+                    Department</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    Main Menu
+                </div>
+                <a href="dashboard.html"
+                    class="nav-item active">
+                    <i class="fas
+                        fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="my-complaints.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-clipboard-list"></i>
+                    <span>My Complaints</span>
+                    <span class="nav-badge"
+                        id="pendingBadge">0
+                    </span>
+                </a>
+                <a href="#"
+                    onclick=
+                    "loadAppointments()"
+                    class="nav-item">
+                    <i class="fas
+                        fa-calendar-check">
+                    </i>
+                    <span>Appointments</span>
+                </a>
+                <a href="#"
+                    onclick=
+                    "UTILS
+                    .toggleNotificationPanel()"
+                    class="nav-item">
+                    <i class="fas fa-bell"></i>
+                    <span>Notifications</span>
+                    <span class="nav-badge"
+                        id="notifCount"
+                        style="display:none">0
+                    </span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-item"
+                onclick="AUTH.logout()">
+                <i class="fas
+                    fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"
+        id="mainContent">
+
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Officer Dashboard</h1>
+                    <p id="officerSubtitle">
+                        Welcome Officer
+                    </p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <span class="time"
+                        id="currentTime"></span>
+                    <span class="date"
+                        id="currentDate"></span>
+                </div>
+                <button class="header-btn"
+                    onclick="UTILS
+                    .toggleNotificationPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count"
+                        id="headerNotifCount"
+                        style="display:none">0
+                    </span>
+                </button>
+                <a href="my-complaints.html"
+                    class="btn btn-sm"
+                    style="background:
+                    var(--blue);color:white">
+                    <i class="fas
+                        fa-clipboard-list"></i>
+                    My Cases
+                </a>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-clipboard-list">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_assigned">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Total Assigned
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card red">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-hourglass-half">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_pending">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Pending
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-check-circle">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_resolved">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Resolved
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_escalated">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Escalated
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card saffron">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-tasks"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_action">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Action Taken
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card teal">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-percentage"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_rate">
+                            0%
+                        </div>
+                        <div class="stat-label">
+                            Resolution Rate
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-grid">
+
+                <!-- Recent Cases -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i class="fas
+                                fa-clock"></i>
+                            Recent Cases
+                        </h3>
+                        <a href=
+                            "my-complaints.html"
+                            class="btn
+                            btn-outline btn-sm">
+                            View All
+                        </a>
+                    </div>
+                    <div class="card-body"
+                        style="padding:0">
+                        <div id="recentCases">
+                            <div style=
+                                "text-align:center;
+                                padding:30px;
+                                color:#999">
+                                <i class=
+                                "fas fa-spinner
+                                fa-spin"></i>
+                                Loading...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions & Info -->
+                <div style="display:flex;
+                    flex-direction:column;
+                    gap:16px">
+
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <i class="fas
+                                    fa-bolt">
+                                </i>
+                                Quick Actions
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class=
+                                "quick-actions">
+                                <a href=
+                                    "my-complaints
+                                    .html"
+                                    class=
+                                    "quick-action-btn">
+                                    <i class=
+                                    "fas fa-list">
+                                    </i>
+                                    <span>My Cases
+                                    </span>
+                                </a>
+                                <a href="#"
+                                    onclick=
+                                    "loadAppointments()"
+                                    class=
+                                    "quick-action-btn">
+                                    <i class="fas
+                                        fa-calendar">
+                                    </i>
+                                    <span>
+                                        Appointments
+                                    </span>
+                                </a>
+                                <a href="#"
+                                    onclick=
+                                    "UTILS
+                                    .toggleNotificationPanel()"
+                                    class=
+                                    "quick-action-btn">
+                                    <i class="fas
+                                        fa-bell">
+                                    </i>
+                                    <span>
+                                        Notifications
+                                    </span>
+                                </a>
+                                <a href="#"
+                                    onclick=
+                                    "loadPending()"
+                                    class=
+                                    "quick-action-btn">
+                                    <i class="fas
+                                        fa-hourglass">
+                                    </i>
+                                    <span>Pending
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Appointments -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>
+                                <i class="fas
+                                    fa-calendar">
+                                </i>
+                                Appointments
+                            </h3>
+                        </div>
+                        <div class="card-body"
+                            id="appointmentList"
+                            style="max-height:
+                            250px;
+                            overflow-y:auto">
+                            <div style=
+                                "text-align:
+                                center;
+                                color:#999;
+                                padding:20px;
+                                font-size:0.85rem">
+                                <i class="fas
+                                    fa-calendar-times">
+                                </i>
+                                <p>Click to load
+                                    appointments
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Notification Panel -->
+<div class="notification-panel"
+    id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3>
+            <i class="fas fa-bell"></i>
+            Notifications
+        </h3>
+        <button class="modal-close"
+            onclick="UTILS
+            .toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="notification-list"
+        id="notificationList"></div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer"
+    class="toast-container"></div>
+
+<!-- Scripts -->
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/complaints.js">
+</script>
+
+<script>
+// ── Guard Page
+AUTH.guardPage('OFFICER');
+
+// ── Initialize
+document.addEventListener(
+    'DOMContentLoaded', async () => {
+    UTILS.init();
+
+    const user = AUTH.getUser();
+    if (user) {
+        document.getElementById(
+            'officerSubtitle')
+            .textContent =
+                `Welcome, ${user.name}
+                | ${user.department || ''}`;
+    }
+
+    await loadDashboard();
+    await loadRecentCases();
+});
+
+// ── Load Dashboard Stats
+async function loadDashboard() {
+    try {
+        const result = await API
+            .dashboard.officer();
+
+        if (result && result.success) {
+            const d = result.data;
+
+            document.getElementById(
+                'stat_assigned')
+                .textContent =
+                    d.assignedToMe || 0;
+            document.getElementById(
+                'stat_pending')
+                .textContent =
+                    d.myPending || 0;
+            document.getElementById(
+                'stat_resolved')
+                .textContent =
+                    d.myResolved || 0;
+            document.getElementById(
+                'stat_escalated')
+                .textContent =
+                    d.myEscalated || 0;
+            document.getElementById(
+                'stat_action')
+                .textContent =
+                    d.myActionTaken || 0;
+
+            // Resolution Rate
+            const total = d.assignedToMe || 0;
+            const resolved = d.myResolved || 0;
+            const rate = total > 0
+                ? Math.round(
+                    (resolved / total) * 100)
+                : 0;
+            document.getElementById(
+                'stat_rate')
+                .textContent = rate + '%';
+
+            // Update pending badge
+            document.getElementById(
+                'pendingBadge')
+                .textContent =
+                    d.myPending || 0;
+        }
+    } catch (e) {
+        console.log('Dashboard error:', e);
+    }
+}
+
+// ── Load Recent Cases
+async function loadRecentCases() {
+    try {
+        const result = await API
+            .complaints.getMy();
+
+        if (result && result.success) {
+            const cases =
+                (result.data || [])
+                .slice(0, 8);
+            const container = document
+                .getElementById('recentCases');
+
+            if (cases.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state"
+                        style="padding:30px">
+                        <i class="fas
+                            fa-inbox"></i>
+                        <p>No cases assigned
+                        </p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML =
+                cases.map(c => `
+                <div class="complaint-card
+                    priority-${(c.priority
+                    || 'low').toLowerCase()}"
+                    onclick="window.location
+                    .href='my-complaints.html'"
+                    style="margin:8px 16px">
+                    <div class=
+                        "complaint-card-header">
+                        <span class=
+                            "complaint-card-id">
+                            ${c.complaintId}
+                        </span>
+                        ${UTILS.getStatusBadge(
+                            c.status)}
+                    </div>
+                    <div class=
+                        "complaint-card-body">
+                        <h4>${UTILS.truncate(
+                            c.subject, 40)}</h4>
+                        <p>${c.callerName}
+                            | ${c.district
+                            || ''}</p>
+                    </div>
+                    <div class=
+                        "complaint-card-footer">
+                        <div class=
+                            "complaint-meta">
+                            <span>
+                                <i class="fas
+                                    fa-clock">
+                                </i>
+                                ${UTILS
+                                .getTimeAgo(
+                                c.createdDate)}
+                            </span>
+                            <span>
+                                <i class="fas
+                                    fa-flag">
+                                </i>
+                                ${c.priority}
+                            </span>
+                        </div>
+                        ${UTILS.getPriorityBadge(
+                            c.priority)}
+                    </div>
+                </div>
+            `).join('');
+        }
+    } catch (e) {
+        console.log('Recent cases error:', e);
+    }
+}
+
+// ── Load Appointments
+async function loadAppointments() {
+    try {
+        const result = await API
+            .appointments.getPending();
+
+        const container = document
+            .getElementById('appointmentList');
+
+        if (!result || !result.success
+                || !result.data
+                || result.data.length === 0) {
+            container.innerHTML = `
+                <div style="text-align:center;
+                    color:#999;padding:20px;
+                    font-size:0.85rem">
+                    <i class="fas
+                        fa-calendar-check">
+                    </i>
+                    <p>No pending appointments
+                    </p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML =
+            result.data.map(a => `
+            <div style="padding:12px;
+                border-bottom:1px solid
+                #F1F3F5">
+                <div style="display:flex;
+                    justify-content:
+                    space-between;
+                    align-items:center;
+                    margin-bottom:6px">
+                    <strong style="font-size:
+                        0.85rem">
+                        ${a.visitorName}
+                    </strong>
+                    ${UTILS.getAppointmentBadge(
+                        a.status)}
+                </div>
+                <p style="font-size:0.78rem;
+                    color:var(--gray);
+                    margin:0 0 8px">
+                    ${UTILS.truncate(
+                        a.purpose, 50)}
+                </p>
+                <div style="display:flex;
+                    gap:8px">
+                    <button class="btn
+                        btn-success btn-sm"
+                        onclick=
+                        "approveApt(
+                        '${a.appointmentId}',
+                        '${a.visitorName}')">
+                        <i class="fas
+                            fa-check"></i>
+                        Approve
+                    </button>
+                    <button class="btn
+                        btn-danger btn-sm"
+                        onclick=
+                        "rejectApt(
+                        '${a.appointmentId}')">
+                        <i class="fas
+                            fa-times"></i>
+                        Reject
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    } catch (e) {
+        console.log('Appointments error:', e);
+    }
+}
+
+// ── Load Pending
+async function loadPending() {
+    window.location.href =
+        'my-complaints.html?filter=PENDING';
+}
+
+// ── Approve Appointment
+async function approveApt(id, name) {
+    const today = new Date()
+        .toISOString().split('T')[0];
+
+    UTILS.confirm(
+        `Approve appointment for ${name}?`,
+        async () => {
+            const result = await API
+                .appointments.approve(
+                    id, today, '10:00', 'Lucknow Office');
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    'Appointment approved',
+                    'success');
+                await loadAppointments();
+            }
+        });
+}
+
+// ── Reject Appointment
+async function rejectApt(id) {
+    UTILS.confirm(
+        'Reject this appointment?',
+        async () => {
+            const result = await API
+                .appointments.reject(
+                    id,
+                    'Not available at '
+                    + 'requested time');
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    'Appointment rejected',
+                    'info');
+                await loadAppointments();
+            }
+        },
+        'Reject Appointment');
+}
+</script>
+
+</body>
+</html>

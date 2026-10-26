@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width,
+        initial-scale=1.0">
+    <title>Minister Dashboard |
+        Minister Office ERP</title>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js">
+    </script>
+    <link rel="stylesheet"
+        href="../assets/css/main.css">
+    <link rel="stylesheet"
+        href="../assets/css/dashboard.css">
+    <link rel="stylesheet"
+        href="../assets/css/components.css">
+</head>
+<body>
+
+<div class="app-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar"
+        style="background:linear-gradient(
+        180deg,#1a0033 0%,#4a0080 100%)">
+
+        <div class="sidebar-header">
+            <div class="sidebar-logo"
+                style="background:linear-gradient(
+                135deg,#FFD700,#FFA500)">
+                <i class="fas fa-crown"
+                    style="color:#1a0033"></i>
+            </div>
+            <div class="sidebar-title">
+                <h2>Minister ERP</h2>
+                <span>Super Admin</span>
+            </div>
+        </div>
+
+        <div class="sidebar-profile">
+            <div class="profile-avatar
+                user-avatar"
+                style="background:linear-gradient(
+                135deg,#FFD700,#FFA500);
+                color:#1a0033">
+                MA
+            </div>
+            <div class="profile-info">
+                <h4 class="user-name">
+                    Minister</h4>
+                <span style="color:
+                    rgba(255,215,0,0.8)">
+                    SUPER ADMIN
+                </span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section">
+                <div class="nav-section-title">
+                    Main Menu
+                </div>
+                <a href="dashboard.html"
+                    class="nav-item active">
+                    <i class="fas
+                        fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="all-complaints.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-clipboard-list"></i>
+                    <span>All Complaints</span>
+                    <span class="nav-badge"
+                        id="pendingBadge">0
+                    </span>
+                </a>
+                <a href="analytics.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="users.html"
+                    class="nav-item">
+                    <i class="fas
+                        fa-users-cog"></i>
+                    <span>User Management</span>
+                </a>
+            </div>
+        </nav>
+
+        <div class="sidebar-footer">
+            <button class="nav-item"
+                onclick="AUTH.logout()">
+                <i class="fas
+                    fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content"
+        id="mainContent">
+
+        <!-- Header -->
+        <header class="top-header">
+            <div class="header-left">
+                <button class="sidebar-toggle"
+                    id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="page-title">
+                    <h1>Minister Dashboard</h1>
+                    <p>Complete System Overview
+                    </p>
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="header-datetime">
+                    <span class="time"
+                        id="currentTime"></span>
+                    <span class="date"
+                        id="currentDate"></span>
+                </div>
+                <button class="header-btn"
+                    onclick="UTILS
+                    .toggleNotificationPanel()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-count"
+                        id="notifCount"
+                        style="display:none">0
+                    </span>
+                </button>
+                <button class="btn btn-sm"
+                    onclick="refreshAll()"
+                    style="background:
+                    linear-gradient(135deg,
+                    #6F42C1,#9B59B6);
+                    color:white">
+                    <i class="fas fa-sync"></i>
+                    Refresh
+                </button>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="page-content">
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+
+                <div class="stat-card blue">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-clipboard-list">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_total">0
+                        </div>
+                        <div class="stat-label">
+                            Total Cases
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card red">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-hourglass-half">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_pending">0
+                        </div>
+                        <div class="stat-label">
+                            Pending Cases
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card teal">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-check-circle">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_resolved">0
+                        </div>
+                        <div class="stat-label">
+                            Resolved
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card saffron">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-exclamation-triangle">
+                        </i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_escalated">
+                            0
+                        </div>
+                        <div class="stat-label">
+                            Escalated
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card purple">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-eye"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_review">0
+                        </div>
+                        <div class="stat-label">
+                            Minister Review
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stat-card green">
+                    <div class="stat-icon">
+                        <i class="fas
+                            fa-lock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"
+                            id="stat_closed">0
+                        </div>
+                        <div class="stat-label">
+                            Closed Cases
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Charts Row -->
+            <div class="content-grid"
+                style="margin-bottom:20px">
+
+                <!-- Status Chart -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i class="fas
+                                fa-chart-pie">
+                            </i>
+                            Status Distribution
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class=
+                            "chart-container">
+                            <canvas
+                                id="statusChart">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Monthly Trend -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <i class="fas
+                                fa-chart-line">
+                            </i>
+                            Monthly Trend
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class=
+                            "chart-container">
+                            <canvas
+                                id="monthlyChart">
+                            </canvas>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Officer Performance -->
+            <div class="card"
+                style="margin-bottom:20px">
+                <div class="card-header">
+                    <h3>
+                        <i class="fas
+                            fa-users"></i>
+                        Officer Performance
+                    </h3>
+                    <a href="analytics.html"
+                        class="btn btn-outline
+                        btn-sm">
+                        Full Analytics
+                    </a>
+                </div>
+                <div class="card-body"
+                    style="padding:0">
+                    <div id="officerPerfTable">
+                        <div style=
+                            "text-align:center;
+                            padding:30px;
+                            color:#999">
+                            <i class=
+                            "fas fa-spinner
+                            fa-spin"></i>
+                            Loading...
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Complaints -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>
+                        <i class="fas
+                            fa-clock"></i>
+                        Recent Complaints
+                        Requiring Attention
+                    </h3>
+                    <a href=
+                        "all-complaints.html"
+                        class="btn btn-outline
+                        btn-sm">
+                        View All
+                    </a>
+                </div>
+                <div class="card-body"
+                    style="padding:0">
+                    <div class=
+                        "table-container">
+                        <table class="table
+                            table-striped"
+                            id="recentTable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>ID</th>
+                                    <th>Caller</th>
+                                    <th>Subject</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                    <th>Officer</th>
+                                    <th>Age</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td
+                                        colspan="9"
+                                        style=
+                                        "text-align:
+                                        center;
+                                        padding:
+                                        30px;
+                                        color:#999">
+                                        <i class=
+                                        "fas
+                                        fa-spinner
+                                        fa-spin">
+                                        </i>
+                                        Loading...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<!-- Minister Action Modal -->
+<div class="modal-overlay"
+    id="ministerModal">
+    <div class="modal"
+        style="max-width:650px">
+        <div class="modal-header">
+            <h3>
+                <i class="fas fa-crown"
+                    style="color:#FFD700">
+                </i>
+                Minister Action
+                <span id="min_complaint_id"
+                    style="font-size:0.85rem;
+                    color:var(--saffron);
+                    font-family:monospace;
+                    margin-left:8px">
+                </span>
+            </h3>
+            <button class="modal-close"
+                onclick="UTILS.closeModal(
+                'ministerModal')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+
+            <!-- Complaint Info -->
+            <div style="background:
+                var(--off-white);
+                border-radius:
+                var(--border-radius-sm);
+                padding:14px;
+                margin-bottom:16px">
+                <h4 id="min_subject"
+                    style="font-size:0.95rem;
+                    margin-bottom:4px"></h4>
+                <p id="min_caller"
+                    style="font-size:0.82rem;
+                    color:var(--gray);
+                    margin:0"></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div style="display:grid;
+                grid-template-columns:
+                repeat(3,1fr);
+                gap:10px;
+                margin-bottom:16px">
+
+                <button class="btn"
+                    style="background:#E8F5E9;
+                    color:#28A745;
+                    border:2px solid #28A745"
+                    onclick=
+                    "setMinAction('APPROVE')">
+                    <i class="fas
+                        fa-check"></i>
+                    Approve
+                </button>
+
+                <button class="btn"
+                    style="background:#FFEBEE;
+                    color:#DC3545;
+                    border:2px solid #DC3545"
+                    onclick=
+                    "setMinAction('REJECT')">
+                    <i class="fas
+                        fa-times"></i>
+                    Reject
+                </button>
+
+                <button class="btn"
+                    style="background:#F3E8FF;
+                    color:#6F42C1;
+                    border:2px solid #6F42C1"
+                    onclick=
+                    "setMinAction(
+                    'GIVE_DIRECTION')">
+                    <i class="fas
+                        fa-directions"></i>
+                    Give Direction
+                </button>
+
+                <button class="btn"
+                    style="background:
+                    var(--blue-pale);
+                    color:var(--blue);
+                    border:2px solid
+                    var(--blue)"
+                    onclick=
+                    "setMinAction('REASSIGN')">
+                    <i class="fas
+                        fa-user-check"></i>
+                    Reassign
+                </button>
+
+                <button class="btn"
+                    style="background:#FFF8E1;
+                    color:#FFA000;
+                    border:2px solid #FFA000"
+                    onclick=
+                    "setMinAction('RESOLVE')">
+                    <i class="fas
+                        fa-check-double"></i>
+                    Resolve
+                </button>
+
+                <button class="btn"
+                    style="background:#F1F3F5;
+                    color:#6C757D;
+                    border:2px solid #6C757D"
+                    onclick=
+                    "setMinAction('CLOSE')">
+                    <i class="fas
+                        fa-lock"></i>
+                    Close Case
+                </button>
+
+            </div>
+
+            <!-- Selected Action Info -->
+            <div id="selectedActionInfo"
+                style="display:none;
+                background:var(--saffron-pale);
+                border:1px solid var(--saffron);
+                border-radius:
+                var(--border-radius-sm);
+                padding:10px 14px;
+                margin-bottom:12px;
+                font-size:0.85rem;
+                color:var(--saffron-dark)">
+            </div>
+
+            <!-- Reassign Officer -->
+            <div id="reassignGroup"
+                style="display:none;
+                margin-bottom:12px">
+                <label class="form-label">
+                    Reassign To Officer
+                </label>
+                <div class="select-wrapper">
+                    <select
+                        id="minOfficerSelect"
+                        class="form-control">
+                        <option value="">
+                            Select Officer
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Direction Input -->
+            <div id="directionGroup"
+                style="margin-bottom:12px">
+                <label class="form-label">
+                    Direction / Note
+                    <span>*</span>
+                </label>
+                <textarea
+                    id="ministerDirection"
+                    class="form-control"
+                    rows="3"
+                    placeholder=
+                    "Enter direction or note...">
+                </textarea>
+            </div>
+
+            <!-- Audit Trail -->
+            <div id="auditTrail"
+                style="max-height:180px;
+                overflow-y:auto">
+            </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline"
+                onclick="UTILS.closeModal(
+                'ministerModal')">
+                Cancel
+            </button>
+            <button class="btn"
+                id="submitMinBtn"
+                onclick="submitMinAction()"
+                style="background:linear-gradient(
+                135deg,#6F42C1,#9B59B6);
+                color:white">
+                <i class="fas fa-crown"></i>
+                Apply Action
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Notification Panel -->
+<div class="notification-panel"
+    id="notificationPanel">
+    <div class="notification-panel-header">
+        <h3>
+            <i class="fas fa-bell"></i>
+            Notifications
+        </h3>
+        <button class="modal-close"
+            onclick="UTILS
+            .toggleNotificationPanel()">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+    <div class="notification-list"
+        id="notificationList"></div>
+</div>
+
+<div id="toastContainer"
+    class="toast-container"></div>
+
+<script src="../assets/js/api.js"></script>
+<script src="../assets/js/auth.js"></script>
+<script src="../assets/js/utils.js"></script>
+<script src="../assets/js/complaints.js">
+</script>
+<script src="../assets/js/charts.js"></script>
+
+<script>
+// ── Guard Page
+AUTH.guardPage('MINISTER');
+
+let currentMinComplaintId = '';
+let currentMinAction = '';
+
+// ── Initialize
+document.addEventListener(
+    'DOMContentLoaded', async () => {
+    UTILS.init();
+    await loadDashboard();
+    await COMPLAINTS.loadOfficers(
+        'minOfficerSelect');
+});
+
+// ── Load Dashboard
+async function loadDashboard() {
+    try {
+        UTILS.showLoading(true,
+            'Loading dashboard...');
+
+        const result = await API
+            .dashboard.minister();
+
+        if (result && result.success) {
+            const d = result.data;
+
+            // Update stats
+            document.getElementById(
+                'stat_total')
+                .textContent =
+                    d.totalCases || 0;
+            document.getElementById(
+                'stat_pending')
+                .textContent =
+                    d.pendingCases || 0;
+            document.getElementById(
+                'stat_resolved')
+                .textContent =
+                    d.resolvedCases || 0;
+            document.getElementById(
+                'stat_escalated')
+                .textContent =
+                    d.escalatedCases || 0;
+            document.getElementById(
+                'stat_review')
+                .textContent =
+                    d.ministerReviewCases || 0;
+            document.getElementById(
+                'stat_closed')
+                .textContent =
+                    d.closedCases || 0;
+            document.getElementById(
+                'pendingBadge')
+                .textContent =
+                    d.pendingCases || 0;
+
+            // Render charts
+            if (d.statusWise) {
+                CHARTS.renderStatusChart(
+                    'statusChart',
+                    d.statusWise);
+            }
+
+            if (d.monthlyTrend) {
+                CHARTS.renderMonthlyChart(
+                    'monthlyChart',
+                    d.monthlyTrend);
+            }
+
+            // Officer performance
+            if (d.officerPerformance) {
+                renderOfficerTable(
+                    d.officerPerformance);
+            }
+
+            // Recent complaints
+            if (d.recentComplaints) {
+                renderRecentTable(
+                    d.recentComplaints);
+            } else {
+                await loadRecentComplaints();
+            }
+        }
+    } catch (e) {
+        console.log('Dashboard error:', e);
+        UTILS.showToast(
+            'Failed to load dashboard',
+            'error');
+    } finally {
+        UTILS.showLoading(false);
+    }
+}
+
+// ── Render Officer Table
+function renderOfficerTable(officers) {
+    const container = document
+        .getElementById('officerPerfTable');
+
+    if (!officers || officers.length === 0) {
+        container.innerHTML = `
+            <div class="empty-state"
+                style="padding:30px">
+                <i class="fas fa-users"></i>
+                <p>No officer data</p>
+            </div>`;
+        return;
+    }
+
+    container.innerHTML = `
+        <div style="padding:0 16px">
+            ${officers.map((o, i) => `
+            <div class="performance-row">
+                <div class="officer-rank
+                    rank-${i + 1}">
+                    ${i + 1}
+                </div>
+                <div class="officer-info">
+                    <h4>${o.officerName}</h4>
+                    <span>${o.department
+                        || ''}</span>
+                </div>
+                <div class="officer-stats">
+                    <div class=
+                        "officer-stat-item">
+                        <span class="num">
+                            ${o.totalAssigned}
+                        </span>
+                        <span class="lbl">
+                            Total
+                        </span>
+                    </div>
+                    <div class=
+                        "officer-stat-item">
+                        <span class="num"
+                            style="color:
+                            #28A745">
+                            ${o.resolved}
+                        </span>
+                        <span class="lbl">
+                            Resolved
+                        </span>
+                    </div>
+                    <div class=
+                        "officer-stat-item">
+                        <span class="num"
+                            style="color:
+                            #FFA000">
+                            ${o.pending}
+                        </span>
+                        <span class="lbl">
+                            Pending
+                        </span>
+                    </div>
+                    <div class=
+                        "officer-stat-item">
+                        <span class="num"
+                            style="color:
+                            #DC3545">
+                            ${o.escalated}
+                        </span>
+                        <span class="lbl">
+                            Escalated
+                        </span>
+                    </div>
+                </div>
+                <div class="resolution-bar">
+                    <div class="bar-label">
+                        <span>Rate</span>
+                        <span>${o
+                            .resolutionRate}%
+                        </span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill"
+                            style="width:
+                            ${o.resolutionRate}%">
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn
+                        btn-outline btn-sm"
+                        onclick=
+                        "sendReminder(
+                        '${o.officerId}',
+                        '${o.officerName}')">
+                        <i class="fas
+                            fa-bell"></i>
+                        Remind
+                    </button>
+                </div>
+            </div>
+        `).join('')}
+        </div>`;
+}
+
+// ── Load Recent Complaints
+async function loadRecentComplaints() {
+    try {
+        const result = await API
+            .complaints.getAll();
+
+        if (result && result.success) {
+            const data = (result.data || [])
+                .filter(c =>
+                    c.status === 'ESCALATED'
+                    || c.status ===
+                        'MINISTER_REVIEW'
+                    || c.priority ===
+                        'CRITICAL')
+                .slice(0, 15);
+            renderRecentTable(data);
+        }
+    } catch (e) {
+        console.log('Recent complaints:', e);
+    }
+}
+
+// ── Render Recent Table
+function renderRecentTable(data) {
+    UTILS.populateTable(
+        'recentTable',
+        data,
+        (c, i) => `
+        <tr style="cursor:pointer">
+            <td>${i + 1}</td>
+            <td>
+                <strong style="color:
+                    var(--saffron);
+                    font-family:monospace;
+                    font-size:0.8rem">
+                    ${c.complaintId}
+                </strong>
+            </td>
+            <td>
+                <strong>${c.callerName}
+                </strong><br>
+                <small style="color:
+                    var(--gray)">
+                    ${c.district || ''}
+                </small>
+            </td>
+            <td title="${c.subject}">
+                ${UTILS.truncate(
+                    c.subject, 30)}
+            </td>
+            <td>
+                ${UTILS.getPriorityBadge(
+                    c.priority)}
+            </td>
+            <td>
+                ${UTILS.getStatusBadge(
+                    c.status)}
+            </td>
+            <td>${c.assignedName || '-'}
+            </td>
+            <td>
+                <small style="color:
+                    var(--gray)">
+                    ${UTILS.getTimeAgo(
+                        c.createdDate)}
+                </small>
+            </td>
+            <td>
+                <button class="btn btn-sm"
+                    style="background:
+                    linear-gradient(135deg,
+                    #6F42C1,#9B59B6);
+                    color:white"
+                    onclick=
+                    "openMinisterModal(
+                    '${c.complaintId}',
+                    '${(c.subject || '')
+                        .replace(/'/g,
+                        "\\'")}',
+                    '${c.callerName}')">
+                    <i class="fas
+                        fa-crown"></i>
+                    Act
+                </button>
+            </td>
+        </tr>`
+    );
+}
+
+// ── Open Minister Modal
+function openMinisterModal(id,
+        subject, caller) {
+    currentMinComplaintId = id;
+    currentMinAction = '';
+
+    document.getElementById(
+        'min_complaint_id')
+        .textContent = id;
+    document.getElementById(
+        'min_subject')
+        .textContent = subject;
+    document.getElementById(
+        'min_caller')
+        .textContent = `Caller: ${caller}`;
+    document.getElementById(
+        'ministerDirection').value = '';
+    document.getElementById(
+        'selectedActionInfo')
+        .style.display = 'none';
+    document.getElementById(
+        'reassignGroup')
+        .style.display = 'none';
+
+    // Load audit trail
+    COMPLAINTS.loadAuditTrail(id);
+
+    UTILS.openModal('ministerModal');
+}
+
+// ── Set Minister Action
+function setMinAction(action) {
+    currentMinAction = action;
+
+    const info = document
+        .getElementById('selectedActionInfo');
+    const reassignGroup = document
+        .getElementById('reassignGroup');
+
+    const actionMessages = {
+        'APPROVE': '✅ Approve this complaint and mark as Action Taken',
+        'REJECT': '❌ Reject and send back to Pending',
+        'GIVE_DIRECTION': '📌 Give direction to assigned officer',
+        'REASSIGN': '🔄 Reassign to different officer',
+        'RESOLVE': '✔️ Mark as Resolved',
+        'CLOSE': '🔒 Close this complaint'
+    };
+
+    info.style.display = 'block';
+    info.textContent =
+        actionMessages[action] || action;
+
+    reassignGroup.style.display =
+        action === 'REASSIGN'
+            ? 'block' : 'none';
+}
+
+// ── Submit Minister Action
+async function submitMinAction() {
+    if (!currentMinAction) {
+        UTILS.showToast(
+            'Please select an action',
+            'warning');
+        return;
+    }
+
+    const direction = document
+        .getElementById('ministerDirection')
+        .value.trim();
+
+    let newOfficerId = '';
+    let newOfficerName = '';
+
+    if (currentMinAction === 'REASSIGN') {
+        const select = document
+            .getElementById('minOfficerSelect');
+        const option = select.options[
+            select.selectedIndex];
+
+        if (!option.value) {
+            UTILS.showToast(
+                'Please select an officer',
+                'warning');
+            return;
+        }
+
+        newOfficerId = option.value;
+        newOfficerName = option.dataset.name
+            || option.text;
+    }
+
+    UTILS.confirm(
+        `Apply "${currentMinAction}" to
+        complaint ${currentMinComplaintId}?`,
+        async () => {
+            UTILS.showLoading(true);
+
+            const result = await API
+                .complaints.ministerAction(
+                    currentMinComplaintId,
+                    currentMinAction,
+                    direction,
+                    direction,
+                    newOfficerId,
+                    newOfficerName);
+
+            UTILS.showLoading(false);
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    `Action "${currentMinAction}"
+                    applied successfully`,
+                    'success');
+                UTILS.closeAllModals();
+                await loadDashboard();
+            } else {
+                UTILS.showToast(
+                    result?.message
+                    || 'Action failed',
+                    'error');
+            }
+        },
+        'Confirm Minister Action'
+    );
+}
+
+// ── Send Reminder to Officer
+async function sendReminder(officerId,
+        officerName) {
+    UTILS.confirm(
+        `Send reminder to ${officerName}?`,
+        async () => {
+            const result = await API
+                .notifications.sendReminder(
+                    officerId,
+                    officerName,
+                    'You have pending complaints.Please take action immediately.',
+                    null);
+
+            if (result && result.success) {
+                UTILS.showToast(
+                    `Reminder sent to
+                    ${officerName}`,
+                    'success');
+            }
+        },
+        'Send Reminder'
+    );
+}
+
+// ── Refresh All
+async function refreshAll() {
+    CHARTS.destroyAll();
+    await loadDashboard();
+    UTILS.showToast(
+        'Dashboard refreshed', 'success');
+}
+</script>
+
+</body>
+</html>
